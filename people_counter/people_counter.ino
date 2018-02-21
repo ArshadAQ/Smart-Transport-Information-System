@@ -24,6 +24,7 @@ void loop() {
   if(person_detected_in == HIGH) //just if(person_detected) doesn't work!
   {
     Serial.println("in Detected!");  //single quotes not working
+    person_detected_in = LOW;  //immediately change the status once a person's presence has been sensed and recorded
     while(1)
     {
          if(person_detected_out = digitalRead(detect_person_out_pin))
@@ -42,6 +43,7 @@ void loop() {
   if(person_detected_out == HIGH) //just if(person_detected) doesn't work!
   {
     Serial.println("out Detected!");  //single quotes not working
+    person_detected_out = LOW;  //immediately change the status once a person's presence has been sensed and recorded
     while(1)
     {
          if(person_detected_in = digitalRead(detect_person_in_pin))
