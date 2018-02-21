@@ -31,7 +31,7 @@ void loop() {
               if(!(person_detected_in = digitalRead(detect_person_in_pin)))
               {
                 
-                Serial.println(++person_counter);
+                Serial.println(--person_counter);
                 break;
               }
         }
@@ -49,7 +49,7 @@ void loop() {
               if(!(person_detected_out = digitalRead(detect_person_out_pin)))
               {
                 
-                Serial.println(--person_counter);
+                Serial.println(++person_counter);
                 break;
               }
         }
