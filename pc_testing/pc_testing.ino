@@ -35,7 +35,7 @@ void loop()
 //        Serial.println(person_counter);
         Serial.print(person_counter);
         Serial.println(" From 1st");
-        while(digitalRead(in)==1 && digitalRead(out)==0);
+        while(digitalRead(in)==1 && digitalRead(out)==0);   //this is extremely important -> Otherwise in a short span of time the loop starts over while the sensor values remain tbe same.
         return;
       }
       
