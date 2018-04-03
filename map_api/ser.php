@@ -15,7 +15,7 @@
     $result =mysqli_query($conn,$sql);
     $data=array();
     $row=mysqli_fetch_assoc($result);
-    $a=array((int)$row['uid'],(int)$row['latitude'],(int)$row['longitude'],(int)$row['speed'],(int)$row['count'],(int)$row['distance']);
+    $a=array((int)$row['uid'],(double)$row['latitude'],(double)$row['longitude'],(double)$row['speed'],(int)$row['count'],(double)$row['distance']);
     array_push($data,$a);
     echo json_encode($data);
 ?>
