@@ -13,15 +13,15 @@
 	    die("Connection failed: " . mysqli_connect_error());
 	}
 
-	$bus_id=$_GET["bus_id"];
-	$curr_lat=$_GET["curr_lat"];
-	$curr_lon=$_GET["curr_lon"];
-	$sp=$_GET["sp"];
-	$pc=$_GET["pc"];
-	$d=$_GET["d"];
+	$bus_id=$_GET["bus_id"]?$_GET["bus_id"]:2;
+	$curr_lat=$_GET["curr_lat"]?$_GET["curr_lat"]:-1;
+	$curr_lon=$_GET["curr_lon"]?$_GET["curr_lon"]:-1;
+	$sp=$_GET["sp"]?$_GET["sp"]:-1;
+	$pc=$_GET["pc"]?$_GET["pc"]:-1;
+	$d=$_GET["d"]?$_GET["d"]:0;
 
 	//$sql = "INSERT INTO bus (bus_id,curr_latitude,curr_longitude,speed,count,distance) VALUES ($bus_id,$curr_lat,$curr_lon,$sp,$c,$d)";
-	$sql ="UPDATE bus SET curr_latitude=$curr_lat,curr_longitude=$curr_lon,speed=$sp,count=$pc WHERE bus_id=$bus_id";
+	$sql ="UPDATE bus SET curr_latitude=$curr_lat,curr_longitude=$curr_lon,speed=$sp,people_count=$pc WHERE bus_id=$bus_id";
 	if (mysqli_query($conn, $sql)) 
 	{
 	    echo "New record created successfully";
