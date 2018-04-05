@@ -12,6 +12,8 @@ TinyGPSPlus gps;
 // The serial connection to the GPS device
 #define ss Serial1 
 
+#define gsmSerial Serial2
+
 float lat_curr,lng_curr, speed_curr;
 
 long previousMillis = 0;
@@ -20,6 +22,10 @@ long interval = 10000;
 
 long send_interval = 11000;
 
+long send_sms_interval = 30000;
+
+long previousSmsMillis = 0;
+
 /*People counter Initialisation*/
 int in = 7;
 int p_in = LOW;
@@ -27,15 +33,18 @@ int p_in = LOW;
 int out = 2;
 int p_out = LOW;
 
-
 int person_counter = 0;
-int count1 = 1;
+
+unsigned long distanceKmToTambaram;
 
 
 void setup()
 {
     Serial.begin(9600);
     ss.begin(GPSBaud);
+
+    gsmSerial.begin(9600);
+    delay(2000);
     
     /*people counter*/
     pinMode(LED_BUILTIN, OUTPUT);
@@ -46,10 +55,8 @@ void setup()
 
 void loop()
 {
-//    Serial.println("People counter");
     if(digitalRead(in)==0 &&digitalRead(out)==1)
     {
-        Serial.println("Hey");
         delay(4);
         while( (digitalRead(in)==0 && digitalRead(out)==0) || (digitalRead(in)==0 && digitalRead(out)==1) || (digitalRead(in)==1 && digitalRead(out)==0))
         {
@@ -57,6 +64,7 @@ void loop()
             if(digitalRead(in)==1 && digitalRead(out)==0)
             {
                 person_counter--;
+                Serial.print("No.of people in the bus are:");
                 Serial.println(person_counter);
                 while(digitalRead(in)==1 && digitalRead(out)==0);   //this is extremely important -> Otherwise in a short span of time the loop starts over while the sensor values remain tbe same.
                 return;
@@ -74,7 +82,6 @@ void loop()
 
     else if(digitalRead(in)==1 && digitalRead(out)==0)
     {
-//        Serial.println("Hey1");
         delay(4);
         while( (digitalRead(in)==0 && digitalRead(out)==0) || (digitalRead(in)==1 && digitalRead(out)==0) || (digitalRead(in)==0 && digitalRead(out)==1))
         {
@@ -82,6 +89,7 @@ void loop()
             if((digitalRead(in)==0) && (digitalRead(out)==1))
             {
                 person_counter++;
+                Serial.print("No.of people in the bus are:");
                 Serial.println(person_counter);
                 while(digitalRead(in)==0 && digitalRead(out)==1);
                 return;
@@ -106,6 +114,8 @@ void loop()
 
         Serial.println("GPS data");
         static const double LONDON_LAT = 51.508131, LONDON_LON = -0.128002;
+
+        static const double TAMBARAM_LAT = 12.9254344, TAMBARAM_LON = 80.11667669999997;
         
         if(gps.location.isValid())
         {
@@ -117,6 +127,13 @@ void loop()
                   lng_curr,
                   LONDON_LAT, 
                   LONDON_LON) / 1000;
+
+              distanceKmToTambaram =
+                (unsigned long)TinyGPSPlus::distanceBetween(
+                  lat_curr,
+                  lng_curr,
+                  TAMBARAM_LAT, 
+                  TAMBARAM_LON) / 1000;
                   
             Serial.print(lat_curr,6);Serial.print(",");Serial.print(lng_curr,6);
             Serial.print("\t");
@@ -127,6 +144,8 @@ void loop()
             }
             Serial.print("\t");
             Serial.print(distanceKmToLondon);
+            Serial.print("\t");
+            Serial.print(distanceKmToTambaram);
             printDateTime(gps.date, gps.time);
         }
         
@@ -137,6 +156,29 @@ void loop()
         if (millis() > 5000 && gps.charsProcessed() < 10)
             Serial.println(F("No GPS data received: check wiring"));
         
+    }
+
+    unsigned long currentSmsMillis = millis();
+    if(currentSmsMillis - previousSmsMillis > send_sms_interval)
+    {
+        previousSmsMillis = currentSmsMillis;
+        Serial.println("Trying to send sms");
+
+        gsmSerial.println("AT");
+        delay(5000);    //this is compulsory! If it doesn't work, then try to increase
+        
+        gsmSerial.println("AT+CMGF=1"); //sending SMS in text mode
+        delay(1000);
+        
+        gsmSerial.println("AT+CMGS=\"+919003171624\"");
+        delay(1000);
+        
+        gsmSerial.print("No.of People in bus1 are: "); delay(1000); gsmSerial.println(person_counter);
+        gsmSerial.print("Current location of the bus: ");delay(1000);gsmSerial.print(lat_curr);delay(1000);gsmSerial.print(",");delay(1000);gsmSerial.println(lng_curr);delay(1000);
+        gsmSerial.print("Speed of the bus: ");delay(1000);gsmSerial.print(speed_curr);delay(1000);gsmSerial.println("kmph");delay(1000);
+        gsmSerial.print("Distance to Tambaram: ");delay(1000);gsmSerial.print(distanceKmToTambaram);delay(1000);gsmSerial.println("km");delay(1000);
+        gsmSerial.write(0x1a);
+
     }
     
 }
