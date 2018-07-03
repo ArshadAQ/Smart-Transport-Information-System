@@ -1,5 +1,6 @@
 # Smart-Transport-Information-System
-Real time public transport information update
+Real time public transport information update.
+
 This project updates passengers with real time status updates of public transport to help them with better decision, planning and time management.
 A bus has been taken as an example.
 
