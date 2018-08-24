@@ -33,7 +33,7 @@ Passengers can visit the website to get realtime status updates of the bus
 - Install GSM Modem with a SIM
 - Connect the above to the Arduino board and power it
 
-![alt text](https://raw.githubusercontent.com/ArshadAQ/Smart-Transport-Information-System/master/screenshots/screenshot1.png?token=AYud0ObwH9TL5Q2UHc2Rk7wlOfFD9XZuks5bRIZcwA%3D%3D)
+![alt text](https://github.com/ArshadAQ/Smart-Transport-Information-System/blob/master/screenshots/screenshot1.png)
 
 ## Deployment
 
@@ -41,15 +41,15 @@ Upload the code using an arudino compatible IDE and you are ready to go!
 
 ## Working Prototype
 
-![alt text](https://raw.githubusercontent.com/ArshadAQ/Smart-Transport-Information-System/master/screenshots/setup.JPG?token=AYud0GtqzFB2DKAbv6N5KOQkyHRgaNwGks5bRIgGwA%3D%3D)
+![alt text](https://github.com/ArshadAQ/Smart-Transport-Information-System/blob/master/screenshots/setup.JPG)
 
 ### SMS update
 
-![alt text](https://raw.githubusercontent.com/ArshadAQ/Smart-Transport-Information-System/master/screenshots/bus_status.jpg?token=AYud0IqeqImwXZX0cIw912e6JyvCegrHks5bRI5UwA%3D%3D)
+![alt text](https://github.com/ArshadAQ/Smart-Transport-Information-System/blob/master/screenshots/bus_status.jpg)
 
 ### Displaying on the web
 
-![alt text](https://raw.githubusercontent.com/ArshadAQ/Smart-Transport-Information-System/master/screenshots/proposed_frontend.JPG?token=AYud0OWZbdxxL9-U-stwkyWeZumS3_YVks5bRI8BwA%3D%3D)
+![alt text](https://github.com/ArshadAQ/Smart-Transport-Information-System/blob/master/screenshots/proposed_frontend.JPG)
 
 Note: Connection by the GSM module to the localhost could not be made due to the IP of the localhost not being public. Hence sending SMS was chosen as a substitute.
 
